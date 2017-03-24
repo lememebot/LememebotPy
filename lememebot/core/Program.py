@@ -1,6 +1,8 @@
-import discord,asyncio
-import Token
+import discord
+import asyncio
+from Token import get_discord_token
 
+print('')
 client = discord.Client()
 
 @client.event
@@ -9,9 +11,14 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
-    print(message)
+    if (message.author.id != client.user.id):
+        if('!!quit' == message.content):
+            await client.logout()
+        else:
+            print('[DEBUG] ',message.author,': ', message.content)
+        #await client.send_message(message.channel, 'Calculating messages...')
 
-client.run(discord_token)
+client.run(get_discord_token())
 
 # URL to add:
 #   (Malul):  https://discordapp.com/api/oauth2/authorize?client_id=294886929735090186&scope=bot&permissions=0
