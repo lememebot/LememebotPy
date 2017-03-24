@@ -9,9 +9,6 @@ from handlers.Overwatch import on_message as overwatch_handle
 from handlers.RemindMe import on_message as remindme_handle
 
 handlers = [clv_handle, hofer_handle, overwatch_handle, remindme_handle];
-=======
-from lememebot.core.Token import get_discord_token
->>>>>>> 9356e3322c5ccc8a8c2ea14848b482ba7f1a9fa4:lememebot/core/Program.py
 
 print('')
 client = discord.Client()
