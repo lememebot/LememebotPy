@@ -1,6 +1,5 @@
 import discord
-import asyncio
-from Token import get_discord_token
+from lememebot.core.Token import get_discord_token
 
 print('')
 client = discord.Client()
@@ -11,11 +10,12 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
-    if (message.author.id != client.user.id):
-        if('!!quit' == message.content):
+    if message.author.id != client.user.id:
+        if '!!quit' == message.content:
             await client.logout()
         else:
             print('[DEBUG] ',message.author,': ', message.content)
+            # call all handlers with client and message
 
 client.run(get_discord_token())
 
