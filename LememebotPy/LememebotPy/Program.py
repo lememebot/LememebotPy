@@ -20,6 +20,6 @@ client.run('Mjk0ODgzNjI3MTY1MDI0MjU4.C7bnWA.T466dvvu3Z0cssV7tuBgfffGRb0')
 
 # TOKEN IDS:
 #   (Malul):  https://discordapp.com/api/oauth2/authorize?client_id=293837616787488780&scope=bot&permissions=0
-#   (Zafig):  TODO
+#   (Zafig):  MjkzMDk1NzY0MDEwMzM2MjY2.C7bqXA.QjOGFq-bP409lsLH6T7TNzS1LgQgit
 #   (Fknfgt): Mjk0ODgzNjI3MTY1MDI0MjU4.C7bnWA.T466dvvu3Z0cssV7tuBgfffGRb0
 #   (John):   TODO
