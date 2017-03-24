@@ -16,7 +16,6 @@ async def on_message(message):
             await client.logout()
         else:
             print('[DEBUG] ',message.author,': ', message.content)
-        #await client.send_message(message.channel, 'Calculating messages...')
 
 client.run(get_discord_token())
 
