@@ -1,4 +1,5 @@
 import discord
+<<<<<<< HEAD:lememebot/Program.py
 import asyncio
 
 from Token import get_discord_token
@@ -8,6 +9,9 @@ from handlers.Overwatch import on_message as overwatch_handle
 from handlers.RemindMe import on_message as remindme_handle
 
 handlers = [clv_handle, hofer_handle, overwatch_handle, remindme_handle];
+=======
+from lememebot.core.Token import get_discord_token
+>>>>>>> 9356e3322c5ccc8a8c2ea14848b482ba7f1a9fa4:lememebot/core/Program.py
 
 print('')
 client = discord.Client()
@@ -18,11 +22,12 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
-    if (message.author.id != client.user.id):
-        if('!!quit' == message.content):
+    if message.author.id != client.user.id:
+        if '!!quit' == message.content:
             await client.logout()
         else:
             print('[DEBUG] ',message.author,': ', message.content)
+            # call all handlers with client and message
 
             for handle in handlers:
                 print("Malullll")
