@@ -1,5 +1,4 @@
 import discord
-<<<<<<< HEAD:lememebot/Program.py
 import asyncio
 
 from Token import get_discord_token
@@ -8,7 +7,7 @@ from handlers.HoferHandler import on_message as hofer_handle
 from handlers.Overwatch import on_message as overwatch_handle
 from handlers.RemindMe import on_message as remindme_handle
 
-handlers = [clv_handle, hofer_handle, overwatch_handle, remindme_handle];
+handlers = [clv_handle, hofer_handle, overwatch_handle, remindme_handle]
 
 print('')
 client = discord.Client()
