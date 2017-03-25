@@ -1,15 +1,17 @@
 import discord
-import asyncio
+import sys
 
-from Token import get_discord_token
-from handlers.Cleverbot import on_message as clv_handle
-from handlers.HoferHandler import on_message as hofer_handle
-from handlers.Overwatch import on_message as overwatch_handle
-from handlers.RemindMe import on_message as remindme_handle
+from lememebot.Token import get_discord_token
+from lememebot.handlers.Cleverbot import on_message as clv_handle
+from lememebot.handlers.HoferHandler import on_message as hofer_handle
+from lememebot.handlers.Overwatch import on_message as overwatch_handle
+from lememebot.handlers.RemindMe import on_message as remindme_handle
+
+if not(__name__ == "__main__" and len(sys.argv) > 1):
+    print('Missing username argument. USAGE: Program.py <username>')
+    exit(0)
 
 handlers = [clv_handle, hofer_handle, overwatch_handle, remindme_handle]
-
-print('')
 client = discord.Client()
 
 @client.event
@@ -26,11 +28,9 @@ async def on_message(message):
             # call all handlers with client and message
 
             for handle in handlers:
-                print("Malullll")
-                handle(message)
+                handle(client,message)
 
-client.run(get_discord_token())
-
+client.run(get_discord_token(sys.argv[1]))
 # URL to add:
 #   (Malul):  https://discordapp.com/api/oauth2/authorize?client_id=294886929735090186&scope=bot&permissions=0
 #   (Zafig):  https://discordapp.com/api/oauth2/authorize?client_id=*DUMMY*&scope=bot&permissions=0
