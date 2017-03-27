@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import asyncio
 
 #commands = [('hello',on_cmd_hello)]
@@ -7,7 +6,7 @@ import asyncio
 @asyncio.coroutine
 async def on_message(client,message):
     print('Hey')
-    
+
 # will tell dean to shut the fuck up when he goes nuts
 def on_cmd_hello(client,message,param):
     print(param)
