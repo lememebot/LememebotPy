@@ -1,8 +1,9 @@
 from cleverwrap import CleverWrap
+import asyncio
 
 CLEVERBOT_COMMAND = "!cleverbot ";
 # will tell dean to shut the fuck up when he goes nuts
-
+@asyncio.coroutine
 async def on_message(client, message):
     print ("YES")
     if (message.content.startswith(CLEVERBOT_COMMAND)):

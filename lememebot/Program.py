@@ -1,5 +1,7 @@
 import discord
 import sys
+import asyncio
+import threading
 
 from Token import get_discord_token
 from handlers.Cleverbot import on_message as clv_handle
@@ -11,12 +13,20 @@ if not(__name__ == "__main__" and len(sys.argv) > 1):
     print('Missing username argument. USAGE: Program.py <username>')
     exit(0)
 
-handlers = [clv_handle, hofer_handle, overwatch_handle, remindme_handle]
 client = discord.Client()
+handlers = [hofer_handle,
+            overwatch_handle,
+            remindme_handle,
+            clv_handle]
 
 @client.event
 async def on_ready():
     print('Logged in as ',client.user.name,'(',client.user.id,')')
+
+@asyncio.coroutine
+def on_message_DoWork(message):
+    for i in range(0, len(handlers)):
+        yield from handlers[i](client, message)
 
 @client.event
 async def on_message(message):
@@ -27,8 +37,13 @@ async def on_message(message):
             print('[DEBUG] ',message.author,': ', message.content)
             # call all handlers with client and message
 
-            for handle in handlers:
-                await handle(client,message)
+            loop = asyncio.get_event_loop()
+            #try:
+            loop.run_until_complete(await on_message_DoWork(message))
+            #except:
+            #    loop.run_until_complete(client.logout())
+            #finally:
+                #loop.close()
 
 client.run(get_discord_token(sys.argv[1]))
 # URL to add:
