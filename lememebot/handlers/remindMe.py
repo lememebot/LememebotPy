@@ -2,8 +2,10 @@ import discord, asyncio, re
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 
-usage = '-- Usage --\nAccepts one of the following formats:\n!RemindMe <amount> <unit> <message>, i.e. !RemindMe 1 day 2 hours din gay\n!RemindMe <date> <time> <message> i.e. !RemindMe 26/05/17 20:35 din homo'
+usage = '-- Usage --\nAccepts one of the following formats:\n!Remind(Me/All) <amount> <unit> <message>, i.e. !RemindMe 1 day 2 hours din gay\n!Remind(Me/All) <date> <time> <message> i.e. !RemindAll 26/05/17 20:35 din homo'
 units = ['seconds', 'minutes', 'hours', 'days', 'weeks', 'months', 'years']
+remind_me = '!remindme'
+remind_all = '!remindall'
 
 def absolute_format(text):
 
@@ -64,7 +66,7 @@ def absolute_format(text):
 
 def relative_format(text):
 
-    pattern = r'^(\d+ (seconds|minutes|hours|days|weeks|months|years) )+'
+    pattern = r'^(\d+ (seconds?|minutes?|hours?|days?|weeks?|months?|years?) )+'
     m = re.match(pattern, text)
     if m:
         time = str(m.group()).strip()
@@ -82,10 +84,16 @@ def relative_format(text):
 
             for i in range(count):
                 req = g[i].split(' ')
+                if not req[1].endswith('s'):
+                    req[1] = req[1] + 's'
                 delta += to_relative_delta(int(req[0]), req[1])
 
-            return { 'seconds': ((datetime.now() + delta) - (datetime.now())).total_seconds(),
-                     'message': msg }
+            seconds = ((datetime.now() + delta) - (datetime.now())).total_seconds()
+
+            if seconds <= 0:
+                return None
+            else:
+                return {'seconds': seconds, 'message': msg}
 
 
 def to_relative_delta(amount, unit):
@@ -100,31 +108,37 @@ def to_relative_delta(amount, unit):
     }[unit]
 
 
-async def remind(client, channel, message, seconds):
+async def remind(client, channel, message, mention, seconds):
     if client:
+        message = 'Reminding ' + mention + ' ' + message
         await asyncio.sleep(seconds)
         await client.send_message(destination=channel, content=message)
 
 
-async def main(client, message):
+async def on_message(client, message):
 
-    # checking message is not from bot
-    if message.author.id != client.user.id:
+    # getting command arguments
+    args = message.content.split(sep=' ')
 
-        # set typing status
-        args = message.content.split(sep=' ')
-        if str.lower(args[0]) == '!remindme':
-            mention = message.author.mention
-        elif str.lower(args[0]) == '!remindall':
-            mention = '@everyone'
+    # checking command and mention
+    if str.lower(args[0]) == remind_me:
+        mention = message.author.mention
+    elif str.lower(args[0]) == remind_all:
+        mention = '@everyone'
+    else:
+        return
 
-        data = absolute_format(' '.join(args[1:]))
-        if not data:
-            data = relative_format(' '.join(args[1:]))
+    content = ' '.join(args[1:])
 
-        print(data)
+    # formatting data
+    data = absolute_format(content)
+    if not data:
+        data = relative_format(content)
 
-        if data:
-            await remind(client, message.channel, mention + ' ' + data['message'], data['seconds'])
-        else:
-            await client.send_message(message.channel, usage)
+    print(data)
+
+    if data:
+        # settings reminder
+        await remind(client, message.channel, data['message'], mention, data['seconds'])
+    else:
+        await client.send_message(message.channel, usage)
