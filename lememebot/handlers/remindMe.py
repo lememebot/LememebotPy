@@ -7,19 +7,29 @@ units = ['seconds', 'minutes', 'hours', 'days', 'weeks', 'months', 'years']
 remind_me = '!remindme'
 remind_all = '!remindall'
 
+'''
+    check if the request is formatted as absolute time
+    and return the formatted data as a dictionary
+    of 'message' and 'seconds'
+'''
 def absolute_format(text):
+
+    # TODO: change this whole shit to regex when you get the time
 
     args = text.split(' ')
 
+    # validate
     if len(args) < 2:
         return None
 
+    # initialize
     date = args[0].replace('\\', '/')
     time = args[1]
     isDate = False
     isTime = False
     message = args
 
+    # calculations cba to explain just ask me or read it yourself
     df = date.split('/')
     if len(df) == 1:
         time = date
@@ -55,6 +65,8 @@ def absolute_format(text):
     else:
         full += ' 00:00:00'
 
+    # whew okie done with the calcs that was tuff xd jk im way past this and im just here to document but cba to reatd this shit lmao
+
     message = ' '.join(message).strip()
     seconds = (datetime.strptime(full, '%d/%m/%Y %H:%M:%S') - datetime.now()).total_seconds()
 
@@ -63,18 +75,26 @@ def absolute_format(text):
     else:
         return {'seconds': seconds, 'message': message}
 
-
+'''
+    check if the request is formatted as relative time
+    and return the formatted data as a dictionary
+    of 'message' and 'seconds'
+'''
 def relative_format(text):
 
+    # set regex to capture the time request
     pattern = r'^(\d+ (seconds?|minutes?|hours?|days?|weeks?|months?|years?) )+'
     m = re.match(pattern, text)
     if m:
+        # extract time request
         time = str(m.group()).strip()
         if time == '':
             return None
 
+        # extract message
         msg = (text[len(time):]).strip()
 
+        # set regex to capture each group
         pattern = r'(\d+ \w+)'
         g = re.findall(pattern, time)
 
@@ -82,20 +102,25 @@ def relative_format(text):
             count = len(g)
             delta = relativedelta()
 
+            # for each group, add the requested time to a relativedelta
             for i in range(count):
                 req = g[i].split(' ')
                 if not req[1].endswith('s'):
                     req[1] = req[1] + 's'
                 delta += to_relative_delta(int(req[0]), req[1])
 
+            # get total number of seconds to wait before reminding
             seconds = ((datetime.now() + delta) - (datetime.now())).total_seconds()
 
+            # cancel if the reminder date passed
             if seconds <= 0:
                 return None
             else:
                 return {'seconds': seconds, 'message': msg}
 
-
+'''
+    convert a unit and an amount to relativedelta for time calculation
+'''
 def to_relative_delta(amount, unit):
     return {
         'seconds': relativedelta(seconds=+amount),
@@ -108,13 +133,18 @@ def to_relative_delta(amount, unit):
     }[unit]
 
 
+'''
+    set a reminder
+'''
 async def remind(client, channel, message, mention, seconds):
     if client:
         message = 'Reminding ' + mention + ' ' + message
         await asyncio.sleep(seconds)
         await client.send_message(destination=channel, content=message)
 
-
+'''
+    manage incoming commands
+'''
 async def on_message(client, message):
 
     # getting command arguments
@@ -128,6 +158,7 @@ async def on_message(client, message):
     else:
         return
 
+    # concat the message and remove the command
     content = ' '.join(args[1:])
 
     # formatting data
@@ -135,10 +166,12 @@ async def on_message(client, message):
     if not data:
         data = relative_format(content)
 
+    # debug
     print(data)
 
     if data:
         # settings reminder
         await remind(client, message.channel, data['message'], mention, data['seconds'])
     else:
+        # wrong syntax, display bot usage
         await client.send_message(message.channel, usage)
