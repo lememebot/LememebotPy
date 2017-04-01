@@ -5,19 +5,18 @@ import threading
 
 from Token import get_discord_token
 from handlers.Cleverbot import on_message as clv_handle
-from handlers.HoferHandler import on_message as hofer_handle
+from handlers.HoferHandler import Hofer
 from handlers.Overwatch import on_message as overwatch_handle
 from handlers.remindMe import on_message as remindme_handle
+from handlers.Pasta import PastaBot
 
 if not(__name__ == "__main__" and len(sys.argv) > 1):
     print('Missing username argument. USAGE: Program.py <username>')
     exit(0)
 
 client = discord.Client()
-handlers = [hofer_handle,
-            overwatch_handle,
-            remindme_handle,
-            clv_handle]
+handlers = [Hofer(),
+    PastaBot(client)]
 
 @client.event
 async def on_ready():
@@ -34,16 +33,11 @@ async def on_message(message):
         if '!!quit' == message.content:
             await client.logout()
         else:
-            print('[DEBUG] ',message.author,': ', message.content)
+            print('[DEBUG] ', message.author, ': ', message.content)
             # call all handlers with client and message
-
-            loop = asyncio.get_event_loop()
-            #try:
-            loop.run_until_complete(await on_message_DoWork(message))
-            #except:
-            #    loop.run_until_complete(client.logout())
-            #finally:
-                #loop.close()
+            for handle in handlers:
+                loop = asyncio.get_event_loop()
+                loop.create_task(handle.on_message(client, message))
 
 client.run(get_discord_token(sys.argv[1]))
 # URL to add:
