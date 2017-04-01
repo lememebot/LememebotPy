@@ -1,4 +1,4 @@
-import discord, asyncio, re
+import discord, asyncio, re, logging
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 
@@ -138,6 +138,7 @@ def to_relative_delta(amount, unit):
 '''
 async def remind(client, channel, message, mention, seconds):
     if client:
+        logging.info('Reminding ' + mention + ' in ' + str(seconds) + ' seconds: ' + message)
         message = 'Reminding ' + mention + ' ' + message
         await asyncio.sleep(seconds)
         await client.send_message(destination=channel, content=message)
@@ -147,6 +148,7 @@ async def remind(client, channel, message, mention, seconds):
 '''
 async def on_message(client, message):
 
+    logging.info('remindMe on_message')
     print('[DEBUG: RemindMe] in on_message')
 
     # getting command arguments
