@@ -147,6 +147,8 @@ async def remind(client, channel, message, mention, seconds):
 '''
 async def on_message(client, message):
 
+    print('[DEBUG: RemindMe] in on_message')
+
     # getting command arguments
     args = message.content.split(sep=' ')
 

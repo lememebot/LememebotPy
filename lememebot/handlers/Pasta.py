@@ -20,6 +20,9 @@ class PastaBot():
                      username='Vincible_')
 
     async def on_message(self, client, message):
+
+        print('[DEBUG: PastaBot] in on_message')
+
         if message.author.id != client.user.id:
             # Copying stuff from Yoni thnx bby 😘
             args = str.lower(message.content).split(sep=' ')
@@ -37,7 +40,7 @@ class PastaBot():
                     comments = self.reddit.redditor('CummyBot2000').comments.top('month')    # You are my Queen, Cummy!  😍😍😍
                     comment = self.get_random_comment(comments)
                     copypasta = comment.body
-                    
+
                     # Get rid of the evidence shhh bby
                     REEEEEEEEEEEE = re.compile(re.escape('cummybot'), re.IGNORECASE)
                     copypasta = REEEEEEEEEEEE.sub('leMemeBot69', copypasta)
@@ -56,7 +59,7 @@ class PastaBot():
         isMin = False    # meirl
         if command not in commands:
             return "Unknown command"
-        elif ((command == 'setmin' and num > self.MAX_MSGS_BETWEEN_PASTA) or 
+        elif ((command == 'setmin' and num > self.MAX_MSGS_BETWEEN_PASTA) or
             (command == 'setmax' and num < self.MIN_MSGS_BETWEEN_PASTA)):
             return "setmin value must be lower than setmax value."
         elif command == 'setmin':
@@ -78,10 +81,7 @@ class PastaBot():
 
     def WakeyWakeyTime(self):
         self.wait_between_msgs_count += 1
-        print(self.wait_between_msgs_count)
-        print(self.wait_between_msgs)
-        print(self.MIN_MSGS_BETWEEN_PASTA)
-        print(self.MAX_MSGS_BETWEEN_PASTA)
+
         if self.wait_between_msgs_count >= self.wait_between_msgs:
             self.wait_between_msgs = random.randint(self.MIN_MSGS_BETWEEN_PASTA, self.MAX_MSGS_BETWEEN_PASTA)
             self.wait_between_msgs_count = 0
