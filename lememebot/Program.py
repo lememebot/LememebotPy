@@ -13,6 +13,7 @@ from handlers.HoferHandler import on_message as hofer_handle
 from handlers.Overwatch import on_message as overwatch_handle
 from handlers.remindMe import on_message as remindme_handle
 from handlers.Pasta import PastaBot
+from handlers.RunGameBeta import RunGameBeta
 
 if not(__name__ == "__main__" and len(sys.argv) > 1):
     print('Missing username argument. USAGE: Program.py <username>')
@@ -29,7 +30,8 @@ handlers = [hofer_handle,
             overwatch_handle,
             remindme_handle,
             clv_handle,
-            PastaBot(client).on_message]
+            PastaBot(client).on_message,
+            RunGameBeta().on_message]
 
 
 @client.event

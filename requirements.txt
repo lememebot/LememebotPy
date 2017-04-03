@@ -1,6 +1,7 @@
 # Use this with pip3, as follows
 # pip3 install -r requirements.txt
-# If run on Linux, in case permission is denied, use
+
+# ** IF RUN ON Linux
 # pip3 install --user -r requirements.txt
 # Can't run pip3 install? Grant reading permissions!
 # sudo chmod -R go+rX /usr/local/lib/python3.5/dist-packages
@@ -8,3 +9,4 @@
 discord.py
 python-dateutil
 cleverwrap
+praw
