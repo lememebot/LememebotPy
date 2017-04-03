@@ -27,3 +27,7 @@ class RunGameBeta:
         #    game_name = message.content.split(self.JOIN_GAME_CMD + " ")[1]
         #    await client.send_message(destination=message.channel, content='Joining {0}...'.format(game_name))
         #    webbrowser.open("steam://run/{0}".format(self.apps_dict[game_name]), new=0 ,autoraise=True)
+
+        # TODO: NON-STEAM Games dictionary to be handled per user!
+        # TODO: Try to launch game from local Lookups first. If failed - on the Steam DB
+        # TODO: Maybe add an optional indication ("should_i_look_in_steam_for_ya_matey?")
