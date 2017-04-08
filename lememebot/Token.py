@@ -8,7 +8,7 @@ token_dict = { 'malul' : 'Mjk0ODg2OTI5NzM1MDkwMTg2.C7b7Fg.adre6bVKOBEYvJL0QZyUPz
                'zafig' : 'MjkzMDk1NzY0MDEwMzM2MjY2.C8AaRw.vPKqdzK2rbYq0bunaLeodLxD014',
                'fknfgt' : 'Mjk0ODgzNjI3MTY1MDI0MjU4.C7bnWA.T466dvvu3Z0cssV7tuBgfffGRb0',
                'yoni' : 'Mjk0ODg3MDk2MjM2MjQ1MDAy.C8APvA.Za3n4Y977puOdkj7z_9-X_a8Kd4',
-               'prod' : ''
+               'prod' : 'MzAwMzM5OTE3MTQ0MTk1MDc0.C8rA3A.nQ_HV4RW2v8-1tOjQhnpKioZHik'
                }
 def get_discord_token(key):
     return token_dict[key]
