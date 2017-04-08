@@ -243,6 +243,7 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
+.idea
 .idea/workspace.xml
 lememebot/__pycache__/__init__.cpython-35.pyc
 resources/
