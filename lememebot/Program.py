@@ -52,4 +52,22 @@ async def on_message(message):
             for handle in handlers:
                 await handle(client=client, message=message)
 
+@client.event
+async def on_member_update(before, after):
+
+    msg = after.name
+
+    if after.game:
+        msg += ' started playing ' + after.game.name + '!'
+    elif before.game:
+        msg += ' stopped playing ' + before.game.name + '!'
+    elif before.status.value == 'offline':
+        msg += ' came online!'
+    elif after.status.value == 'offline':
+        msg += ' went offline!'
+    else:
+        msg += ' went from ' + before.status.value + ' to ' + after.status.value + '!'
+
+    await client.send_message(destination=after.server.default_channel, content=msg)
+
 client.run(get_discord_token(sys.argv[1]))
