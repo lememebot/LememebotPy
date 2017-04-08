@@ -1,4 +1,5 @@
+import asyncio
 
 # will tell dean to shut the fuck up when he goes nuts
-def on_message(client,message):
-    print('Hey')
+async def on_message(client, message):
+    print('[DEBUG: Hofer] on_message')
